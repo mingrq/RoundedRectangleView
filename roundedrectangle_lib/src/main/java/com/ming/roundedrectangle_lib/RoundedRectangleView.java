@@ -26,10 +26,8 @@ import android.util.TypedValue;
  */
 public class RoundedRectangleView extends AppCompatImageView {
 
-    float radius = 0;//所有圆角大小
-    float verticalRadius = 0;//垂直圆角大小
-    float horizontalRadius = 0;//水平圆角大小
-
+    private float radius;//所有圆角大小
+    private Context context;
 
     public RoundedRectangleView(Context context) {
         this(context, null);
@@ -41,10 +39,9 @@ public class RoundedRectangleView extends AppCompatImageView {
 
     public RoundedRectangleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.RoundedRectangleView);
         radius = array.getDimension(R.styleable.RoundedRectangleView_radius, 0);
-        verticalRadius = array.getDimension(R.styleable.RoundedRectangleView_verticalRadius, 0);
-        horizontalRadius = array.getDimension(R.styleable.RoundedRectangleView_horizontalRadius, 0);
         array.recycle();
     }
 
@@ -70,15 +67,10 @@ public class RoundedRectangleView extends AppCompatImageView {
             paint.setShader(shader);
             Rect rect = new Rect(0, 0, viewWidth, viewHeight);
             RectF rectF = new RectF(rect);
-            if (radius > 0) {
-                verticalRadius = radius;
-                horizontalRadius = radius;
-            }
-            canvas.drawRoundRect(rectF, horizontalRadius, verticalRadius, paint);
+            canvas.drawRoundRect(rectF, radius, radius, paint);
         } else {
             super.onDraw(canvas);
         }
-
     }
 
     private Bitmap getBitmap(Drawable drawable) {
@@ -99,29 +91,30 @@ public class RoundedRectangleView extends AppCompatImageView {
     }
 
 
+    /**
+     * 获取圆角角度
+     *
+     * @return
+     */
     public float getRadius() {
         return radius;
     }
 
+    /**
+     * 设置圆角大小 单位 px
+     *
+     * @param radius
+     */
     public void setRadius(float radius) {
         this.radius = radius;
     }
 
-    public float getVerticalRadius() {
-        return verticalRadius;
+
+    /**
+     * dp转px
+     */
+    public float dp2px(float dpValues) {
+        dpValues = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValues, context.getResources().getDisplayMetrics());
+        return dpValues;
     }
-
-    public void setVerticalRadius(float verticalRadius) {
-        this.verticalRadius = verticalRadius;
-    }
-
-    public float getHorizontalRadius() {
-        return horizontalRadius;
-    }
-
-    public void setHorizontalRadius(float horizontalRadius) {
-        this.horizontalRadius = horizontalRadius;
-    }
-
-
 }

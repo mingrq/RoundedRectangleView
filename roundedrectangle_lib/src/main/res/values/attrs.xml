@@ -2,7 +2,5 @@
 <resources>
     <declare-styleable name="RoundedRectangleView">
         <attr name="radius" format="dimension" />
-        <attr name="verticalRadius" format="dimension" />
-        <attr name="horizontalRadius" format="dimension" />
     </declare-styleable>
 </resources>
